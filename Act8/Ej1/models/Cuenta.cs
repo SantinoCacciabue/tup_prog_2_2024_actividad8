@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ej1.models
 {
+    [Serializable]
     internal class Cuenta:IComparable
     {
         public Persona Titular { get; set; }

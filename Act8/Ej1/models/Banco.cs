@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ej1.models
 {
+    [Serializable]
     internal class Banco
     {
         private List<Persona> clientes = new List<Persona>();
@@ -42,14 +43,9 @@ namespace Ej1.models
             Cuenta c = VerCuentaPorNumero(num);
             if(c== null)
             {
-                c = new Cuenta(num, p); 
+                c = new Cuenta(num, p);//se crea la cuenta con saldo 0(en el form se le agrega saldo).
                 cuentas.Add(c);
-            }
-            else
-            {
-                throw new Exception("re mal");
-            }
-           
+            }           
             return c;
         }
         public Cuenta VerCuenta(int i)

@@ -1,0 +1,8 @@
+Tipo:Banco
+Tipo:Persona;DNI;Nombre
+Tipo:Cuenta;Numero;Saldo;Fecha
+Banco;
+Persona;46371208;Santino
+Persona;25885490;Walquiria
+Cuenta;343;30000;10/10/2024
+Cuenta;343;15000;10/10/2024

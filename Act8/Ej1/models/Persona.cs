@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace Ej1.models
 {
+    [Serializable]
     internal class Persona:IComparable
     {
+
         public int DNI { get; set; }
         public string Nombre { get; set; }
         public Persona(int dni, string nombre)

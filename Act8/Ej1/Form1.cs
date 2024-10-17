@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Drawing.Design;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -15,6 +16,7 @@ namespace Ej1
 {
     public partial class Form1 : Form
     {
+
         public Form1()
         {
             InitializeComponent();
@@ -52,7 +54,7 @@ namespace Ej1
                         a = a.Trim().Replace(" ", "");
                         lisbo.Items.Add(a);
                         string[] b = a.Split(';');
-                        Cuenta c = banco.AgregarCuenta(Convert.ToInt32(b[2]), Convert.ToInt32(b[0]), b[1]);
+                        Cuenta c = banco.AgregarCuenta(Convert.ToInt32(b[2]), Convert.ToInt32(b[0]), b[1]);//si ya tiene saldo, lo actualiza.
                         c.Saldo = Convert.ToDouble(b[3]);
                         lisbo.Items.Add(c);
                     }
@@ -99,7 +101,51 @@ namespace Ej1
             finally
             {
                 if (fs != null) fs.Close();
-                if (sw != null) sr.Close();
+                if (sw != null) sw.Close();
+            }
+            
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            try
+            {
+                FileStream fs = new FileStream("ejercicio1.dat", FileMode.OpenOrCreate, FileAccess.Write);
+                BinaryFormatter bf = new BinaryFormatter();
+                bf.Serialize(fs, banco);
+            }
+            finally
+            {
+                if (fs != null) fs.Close();
+            }
+            
+
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                if (File.Exists("ejercicio1.dat"))
+                {
+                    FileStream fs = new FileStream("ejercicio1.dat", FileMode.Open, FileAccess.Read);
+                    BinaryFormatter bf = new BinaryFormatter();
+                    Banco banco = bf.Deserialize(fs) as Banco;
+                }
+                if (banco != null)
+                {
+                    lisbo.Items.Clear();
+                    for (int idx = 0; idx < banco.CantidadCuentas; idx++)
+                    {
+                        Cuenta c = banco[idx];
+
+                        lisbo.Items.Add(c);
+                    }
+                }
+            }
+            finally
+            {
+                if (fs != null) sw.Close();
             }
             
         }
