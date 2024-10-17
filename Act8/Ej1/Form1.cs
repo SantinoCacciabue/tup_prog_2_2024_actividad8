@@ -22,9 +22,8 @@ namespace Ej1
             InitializeComponent();
         }
         Banco banco = new Banco();
-        FileStream fs;
-        StreamReader sr;
-        StreamWriter sw;
+
+       
         private void bVer_Click(object sender, EventArgs e)
         {
             lisbo.Items.Clear();
@@ -38,6 +37,8 @@ namespace Ej1
 
         private void button2_Click(object sender, EventArgs e)
         {
+            FileStream fs = null;
+            StreamReader sr = null;
             try
             {
                 OpenFileDialog open = new OpenFileDialog();
@@ -56,7 +57,7 @@ namespace Ej1
                         string[] b = a.Split(';');
                         Cuenta c = banco.AgregarCuenta(Convert.ToInt32(b[2]), Convert.ToInt32(b[0]), b[1]);//si ya tiene saldo, lo actualiza.
                         c.Saldo = Convert.ToDouble(b[3]);
-                        lisbo.Items.Add(c);
+                        
                     }
                 }
                 bVer.PerformClick();
@@ -70,11 +71,15 @@ namespace Ej1
                 if(fs != null) fs.Close();
                 if(sr != null) sr.Close();
             }
+
            
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
+            FileStream fs = null;
+            StreamWriter sw = null;
+
             try
             {
                 SaveFileDialog save = new SaveFileDialog();
@@ -108,9 +113,11 @@ namespace Ej1
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
+
+            FileStream fs = null;
             try
             {
-                FileStream fs = new FileStream("ejercicio1.dat", FileMode.OpenOrCreate, FileAccess.Write);
+                fs = new FileStream("ejercicio1.dat", FileMode.OpenOrCreate, FileAccess.Write);
                 BinaryFormatter bf = new BinaryFormatter();
                 bf.Serialize(fs, banco);
             }
@@ -124,30 +131,36 @@ namespace Ej1
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            FileStream fs = null;
             try
             {
                 if (File.Exists("ejercicio1.dat"))
                 {
-                    FileStream fs = new FileStream("ejercicio1.dat", FileMode.Open, FileAccess.Read);
+                    fs = new FileStream("ejercicio1.dat", FileMode.Open, FileAccess.Read);
                     BinaryFormatter bf = new BinaryFormatter();
-                    Banco banco = bf.Deserialize(fs) as Banco;
+                    banco = bf.Deserialize(fs) as Banco;
                 }
-                if (banco != null)
-                {
-                    lisbo.Items.Clear();
-                    for (int idx = 0; idx < banco.CantidadCuentas; idx++)
-                    {
-                        Cuenta c = banco[idx];
-
-                        lisbo.Items.Add(c);
-                    }
-                }
+               
             }
             finally
             {
-                if (fs != null) sw.Close();
+                if (fs != null) fs.Close();
             }
-            
+
+
+            if (banco == null)
+            {
+                banco=new Banco();
+            }
+
+
+            lisbo.Items.Clear();
+            for (int idx = 0; idx < banco.CantidadCuentas; idx++)
+            {
+                Cuenta c = banco[idx];
+
+                lisbo.Items.Add(c);
+            }
         }
     }
 }
