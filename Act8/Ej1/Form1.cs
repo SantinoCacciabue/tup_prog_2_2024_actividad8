@@ -30,53 +30,78 @@ namespace Ej1
             {
                 Cuenta c = banco[idx];
 
-                string linea = $"{c.Numero}";
-
-                lisbo.Items.Add(linea);
+                lisbo.Items.Add(c);
             }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-           OpenFileDialog open = new OpenFileDialog();
-            open.InitialDirectory = "C:\\Users\\Alumno\\Desktop\\tup_prog_2_2024_actividad8\\Ficheros";
-            open.Filter = "Archivos CSV (*.csv)|*.csv";
-            if (open.ShowDialog()==DialogResult.OK)
-           {
-                fs = new FileStream(open.FileName, FileMode.Open, FileAccess.Read);
-                sr = new StreamReader(fs);
-                sr.ReadLine();
-                while( !sr.EndOfStream )
+            try
+            {
+                OpenFileDialog open = new OpenFileDialog();
+                open.InitialDirectory = "C:\\Users\\Alumno\\Desktop\\Nueva Carpet\\tup_prog_2_2024_actividad8\\Ficheros";
+                open.Filter = "Archivos CSV (*.csv)|*.csv";
+                if (open.ShowDialog() == DialogResult.OK)
                 {
-                    string a = sr.ReadLine();
-                    a = a.Trim().Replace(" ","") ;
-                    lisbo.Items.Add( a );
-                    string[] b = a.Split(';');
-                    Cuenta c = banco.AgregarCuenta(Convert.ToInt32(b[2]), Convert.ToInt32(b[0]), b[1]);
-                    c.Saldo = Convert.ToDouble(b[3]);
-                    lisbo.Items.Add(c);
+                    fs = new FileStream(open.FileName, FileMode.Open, FileAccess.Read);
+                    sr = new StreamReader(fs);
+                    sr.ReadLine();
+                    while (!sr.EndOfStream)
+                    {
+                        string a = sr.ReadLine();
+                        a = a.Trim().Replace(" ", "");
+                        lisbo.Items.Add(a);
+                        string[] b = a.Split(';');
+                        Cuenta c = banco.AgregarCuenta(Convert.ToInt32(b[2]), Convert.ToInt32(b[0]), b[1]);
+                        c.Saldo = Convert.ToDouble(b[3]);
+                        lisbo.Items.Add(c);
+                    }
                 }
-                fs.Close();
-                sr.Close();
+                bVer.PerformClick();
             }
-            bVer.PerformClick();
+            catch(Exception)
+            {
+                MessageBox.Show("Hay algun error(no sé cual jaja)");
+            }
+            finally
+            {
+                if(fs != null) fs.Close();
+                if(sr != null) sr.Close();
+            }
+           
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            SaveFileDialog save = new SaveFileDialog();
-            save.Filter = "Archivos CSV (*.csv)|*.csv";
-            save.InitialDirectory = "C:\\Users\\Alumno\\Desktop\\tup_prog_2_2024_actividad8\\Ficheros";
-            if (save.ShowDialog()==DialogResult.OK)
+            try
             {
-                fs = new FileStream(save.FileName, FileMode.OpenOrCreate, FileAccess.Write);
-                sw = new StreamWriter(fs);
-                for (int i = 0; i < lisbo.Items.Count; i++)
+                SaveFileDialog save = new SaveFileDialog();
+                save.Filter = "Archivos CSV (*.csv)|*.csv";
+                save.InitialDirectory = "C:\\Users\\Alumno\\Desktop\\tup_prog_2_2024_actividad8\\Ficheros";
+                if (save.ShowDialog() == DialogResult.OK)
                 {
-                    string item = (string)lisbo.Items[i];
-                    sw.WriteLine(item);
+                    fs = new FileStream(save.FileName, FileMode.OpenOrCreate, FileAccess.Write);
+                    sw = new StreamWriter(fs);
+                    for (int i = 0; i < lisbo.Items.Count; i++)
+                    {
+                        Cuenta c = banco[i];
+                        if (c.Saldo > 10000)
+                        {
+                            sw.WriteLine($"{c.Titular.DNI};{c.Titular.Nombre};{c.Numero};{c.Saldo}");
+                        }
+                    }
                 }
             }
+            catch (Exception)
+            {
+                MessageBox.Show("Hay algun error(no sé cual jaja)");
+            }
+            finally
+            {
+                if (fs != null) fs.Close();
+                if (sw != null) sr.Close();
+            }
+            
         }
     }
 }

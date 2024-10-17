@@ -45,6 +45,10 @@ namespace Ej1.models
                 c = new Cuenta(num, p); 
                 cuentas.Add(c);
             }
+            else
+            {
+                throw new Exception("re mal");
+            }
            
             return c;
         }

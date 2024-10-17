@@ -35,5 +35,9 @@ namespace Ej1.models
             }
             return -1;
         }
+        public override string ToString()
+        {
+            return $"Nombre: {Titular.Nombre}-({Titular.DNI}) Num:{Numero}(${Saldo})";
+        }
     }
 }
