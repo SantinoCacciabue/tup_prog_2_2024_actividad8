@@ -256,7 +256,7 @@ namespace Ej1
                                     personas.Sort();
                                     int idx = personas.BinarySearch(p);
                                     if (idx < 0) personas.Add(p);
-                                    else throw new Exception("personas duplicada");
+                                    else throw new Exception("persona duplicada");
                                 }
                                 break;
                             case "cuenta":
