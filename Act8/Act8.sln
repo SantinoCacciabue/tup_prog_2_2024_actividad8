@@ -5,6 +5,13 @@ VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ej1", "Ej1\Ej1.csproj", "{4B9A8714-216D-487E-8AE1-AFFC07DDD4A3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ficheros", "ficheros", "{E62EF691-DF1E-4466-A9FA-B0CD5FBE2CFF}"
+	ProjectSection(SolutionItems) = preProject
+		..\Ficheros\clientes.csv = ..\Ficheros\clientes.csv
+		..\Ficheros\backup.csv = ..\Ficheros\backup.csv
+		..\Ficheros\menosdiezmil.csv = ..\Ficheros\menosdiezmil.csv
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

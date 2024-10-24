@@ -48,9 +48,9 @@ namespace Ej1.models
             }           
             return c;
         }
-        public Cuenta VerCuenta(int i)
+        public Persona VerCliente(int i)
         {
-            return cuentas[i];
+            return clientes[i];
         }
         public Cuenta VerCuentaPorNumero(int numero)
         {
@@ -77,12 +77,15 @@ namespace Ej1.models
         }
         public bool RestaurarCuenta(int num,double saldo, DateTime fecha, Persona p)
         {
+            Cuenta c = new Cuenta(num, saldo, fecha, p);
             cuentas.Sort();
-            int i = cuentas.BinarySearch(new Cuenta(num, saldo, fecha, p));
-            if (i == -1)
+            int i = cuentas.BinarySearch(c);
+
+            if (i >= 0)
             {
                 return false;
             }
+            cuentas.Add(c);
             return true;
 
         }

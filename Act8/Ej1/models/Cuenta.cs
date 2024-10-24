@@ -16,7 +16,8 @@ namespace Ej1.models
         public Cuenta(int num, Persona p)
         {
             Titular = p;
-            Numero = num;
+            Numero = num; 
+            Fecha = DateTime.Today;
         }
         public Cuenta(int num, double saldo,DateTime fecha,Persona p)
         {

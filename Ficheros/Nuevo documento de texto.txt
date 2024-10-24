@@ -1,0 +1,8 @@
+tipo:banco
+tipo:persona;dni;nombre
+tipo:cuenta;numero;saldo;fecha;dni
+banco
+persona;4567839;Alberto
+persona;3728919;Cristina
+cuenta;343;3,5;03/03/2023;4567839
+cuenta;344;300,6;03/03/2023;4567839
